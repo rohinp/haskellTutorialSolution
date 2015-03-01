@@ -30,51 +30,47 @@ lookUp c xs = if null v then c else head v
 	where
 		v = [ snd x | x <- xs, fst x == c]    
 
--- 5
 lookUpRec :: Char -> [(Char, Char)] -> Char
 lookUpRec c [] = c
 lookUpRec c (x:xs) | fst x  == c = snd x
                    | otherwise   = lookUpRec c xs          
 
--- 5
 prop_lookUp :: Char -> [(Char, Char)] -> Bool
 prop_lookUp c xs = lookUp c xs == lookUpRec c xs
 
--- 6
+-- 5
 encipher :: Int -> Char -> Char
 encipher o c = lookUp c (makeKey o)
 
--- 7
+-- 6
 normalize :: String -> String
 normalize xs = [toUpper x | x <- xs, isDigit x || isAlpha x]
 
--- 8
+-- 7
 encipherStr :: Int -> String -> String
 encipherStr o msg = [encipherChar x | x <- normalize msg]
 	where
 		encipherChar = encipher o
  
  -- decoding a message
--- 9
+-- 8
 reverseKey :: [(Char, Char)] -> [(Char, Char)]
 reverseKey xs = [(snd x, fst x) | x <- xs]
 
--- 10
 reverseKeyRec :: [(Char, Char)] -> [(Char, Char)]
 reverseKeyRec [] = []
 reverseKeyRec (x:xs) = (rev x):reverseKeyRec(xs)
 	where
 		rev y = (snd y, fst y)
 
--- 11
 prop_reverseKey :: [(Char, Char)] -> Bool
 prop_reverseKey xs = reverseKey xs == reverseKeyRec xs
 
--- 12
+-- 9
 decipher :: Int -> Char -> Char
 decipher o c = lookUp c (reverseKey (makeKey o))
 
--- 13
+-- 10
 decipherStr :: Int -> String -> String
 decipherStr o msg = [decipherChar c | c <- msg]
 	where
@@ -82,7 +78,7 @@ decipherStr o msg = [decipherChar c | c <- msg]
 
 -- breaking cryptography
 
--- 14
+-- 11
 contains :: String -> String -> Bool
 contains [] [] = False
 contains str subStr | null str = False
@@ -91,17 +87,39 @@ contains str subStr | null str = False
 	where
 		isZipEqSet s1 s2 = length [x | x <- zip s1 s2, fst x == snd x] == length s2
 		
--- 15
+-- 12
 candidates :: String -> [(Int, String)]
 candidates [] = []
 candidates xs = [(i, decipherStr i xs) | i <- [1..26] , contains (decipherStr i xs) "THE" || contains (decipherStr i xs) "AND"]
 
 
+-- Optional Material
 
+-- 12.
+splitEachFive :: String -> [String]
+splitEachFive = undefined
 
+-- 13.
+prop_transpose :: String -> Bool
+prop_transpose = undefined
 
+-- 14.
+encrypt :: Int -> String -> String
+encrypt = undefined
 
+-- 15.
+decrypt :: Int -> String -> String
+decrypt = undefined
 
+-- Challenge (Optional)
+
+-- 16.
+countFreqs :: String -> [(Char, Int)]
+countFreqs = undefined
+
+-- 17
+freqDecipher :: String -> [String]
+freqDecipher = undefined
 
 
 
