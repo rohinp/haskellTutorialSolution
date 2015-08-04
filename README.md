@@ -1,3 +1,3 @@
-This repo contains all the solutions to the exercise given by Phili Wadler in edinburg, lectures on Haskell
+This repo contains simple haskell problems and solutions... just for fun
 
 This is a WIP :-)
